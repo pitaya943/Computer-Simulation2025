@@ -10,6 +10,8 @@ Github for Computer Simulation's DEMO is located at
 import sys
 import math
 import random
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 
 class MM1Queue:
     def __init__(self, mean_interarrival, mean_service, num_delays_required):
@@ -190,8 +192,20 @@ class MM1Queue:
         self.report()
 
 def main():
+        # Time formatting method
+        def format_timedelta(td: timedelta) -> str:
+            total_seconds = td.total_seconds()
+            minutes = int(total_seconds // 60)
+            seconds = total_seconds - minutes * 60
+            return f'{minutes} m {seconds:.3f} s'
+
         # Input three parameters here !!!
-        mean_interarrival, mean_service, num_delays_required = 1.000, 1.000, 10
+        mean_interarrival, mean_service, num_delays_required = 1.000, 0.500, 10000
+
+        utc_start_time = datetime.now(ZoneInfo('UTC'))
+        start_time = utc_start_time.astimezone(ZoneInfo('Asia/Taipei')).strftime('%m-%d-%Y %H:%M:%S')
+        print(f'\nStart at {start_time}\n')
+
         print('------------------------------------------\n')
         print('// Single-Server Queueing System //\n')
         print(f'Mean interarrival time{mean_interarrival:11.3f} minutes')
@@ -202,5 +216,14 @@ def main():
         # Create and run the simulation
         mm1_queue = MM1Queue(mean_interarrival, mean_service, num_delays_required)
         mm1_queue.run_simulation()
+
+        utc_finish_time = datetime.now(ZoneInfo('UTC'))
+        finished_time = utc_finish_time.astimezone(ZoneInfo('Asia/Taipei')).strftime('%m-%d-%Y %H:%M:%S')
+        spend_time = utc_finish_time - utc_start_time
+        elapsed = format_timedelta(spend_time)
+        
+        print(f'\nThe simulation start at {start_time}\n')
+        print(f'Finished at {finished_time}\n')
+        print(f'It spend {elapsed}\n')
 
 main()
