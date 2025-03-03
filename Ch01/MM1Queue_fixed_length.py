@@ -195,7 +195,7 @@ class MM1Queue:
 
 def main():
         # Input three parameters here !!!
-        mean_interarrival, mean_service, time_end = 1.000, 0.800, 100
+        mean_interarrival, mean_service, time_end = 1.000, 0.500, 480
         print('------------------------------------------\n')
         print('// Single-Server Queueing System with fixed run//\n')
         print(f'Mean interarrival time{mean_interarrival:11.3f} minutes')
